@@ -1,0 +1,173 @@
+/* Header Styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  position: fixed;
+  height: 40px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent; /* ✅ make header transparent */
+  z-index: 1000; /* ensures it stays above the background */
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  backdrop-filter: blur(4px); /* ✅ subtle glass effect (optional) */
+}
+
+/* Logo Section */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white; /* ✅ visible on dark backgrounds */
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: white; /* ✅ text visible on transparent background */
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+  width: 100px;
+  border-bottom: 2px solid #fff;
+}
+
+/* Icons */
+.icon {
+  font-size: 1.1rem;
+  color: white;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+    backdrop-filter: blur(6px); /* make sure it's readable on phones */
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Footer Styling */
+.footer {
+  background: #1b6492;
+  color: #efdfdf;
+  text-align: center;
+  padding: 2rem 1rem;
+  width: 100vw;
+  position: relative;
+  bottom: 40%;
+  border-top: 2px solid #021223;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  left: 0;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: left;
+  left: 0;
+}
+
+.footer-left h3 {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.footer-center {
+  flex: 1;
+  text-align: center;
+}
+
+.footer-center p {
+  margin: 0.3rem 0;
+}
+
+.dev-note {
+  color: #f8c146;
+  font-style: italic;
+}
+
+.footer-right {
+  text-align: right;
+  margin-right: 2rem;
+}
+
+.footer-right h4 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.social-icons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+.social-icons a {
+  color: #ddd;
+  font-size: 1.3rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.social-icons a:hover {
+  color: #01080e;
+  transform: translateY(-3px);
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-right {
+    text-align: center;
+  }
+}

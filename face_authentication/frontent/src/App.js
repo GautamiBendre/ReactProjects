@@ -1,0 +1,57 @@
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation
+} from "react-router-dom";
+import "./App.css";
+
+// Components
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+// Pages
+import Home from "./pages/Home";
+import SLogin from "./pages/SLogin";
+import TLogin from "./pages/TLogin";
+/*import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
+import StudentDashboard from "./pages/StudentDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard";*/
+
+function AppWrapper() {
+  const location = useLocation();
+
+  // Normalize pathname to lowercase for consistency
+  const path = location.pathname.toLowerCase();
+
+  // Pages without header/footer
+  const noHeaderFooter = ["/slogin", "/tlogin"];
+
+  const showHeaderFooter = !noHeaderFooter.includes(path);
+
+  return (
+    <>
+      {showHeaderFooter && <Header />}
+
+      <main style={{ minHeight: "100vh" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/SLogin" element={<SLogin />} />
+          <Route path="/TLogin" element={<TLogin />} />
+        </Routes>
+      </main>
+
+      {showHeaderFooter && <Footer />}
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppWrapper />
+    </Router>
+  );
+}
