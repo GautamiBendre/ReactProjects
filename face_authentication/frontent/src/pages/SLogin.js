@@ -5,7 +5,7 @@ export default function Slogin() {
     return(
         
         <div className='main_container'>
-            <div className="container">
+            <div className="S_container">
             <div className='form-container'>
                 <div className='form-toggle'>
                     <button className={isLogin ? 'active' : ""}
@@ -31,7 +31,8 @@ export default function Slogin() {
                     <input type="text" placeholder="Semester"/>
                     <input type="email" placeholder="Email"/>
                     <input type="password" placeholder="Password"/>
-                    <input type="password" placeholder="Confirm Password"/>
+                    <label for="photo">Upload Student Image</label>
+                    <input type="file" id="photo" name="photo" accept="image/png, image/jpeg"/>
 
                     <button>SignUp</button>
                     </div>
