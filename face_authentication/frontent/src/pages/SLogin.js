@@ -1,45 +1,187 @@
-import React, {useState} from "react";
-import './SLogin.css';
+import React, { useState } from "react";
+import "./SLogin.css";
+
 export default function Slogin() {
-    const [isLogin , setIsLogin] = useState(true);
-    return(
-        
-        <div className='main_container'>
+    const [isLogin, setIsLogin] = useState(true);
+
+    // -------------------------
+    // LOGIN FORM STATE
+    // -------------------------
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: ""
+    });
+
+    const handleLoginChange = (e) => {
+        setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    };
+
+    const handleLogin = async () => {
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(loginData),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                alert("Login Successful!");
+                console.log("User:", data.user);
+            } else {
+                alert(data.message || "Login failed");
+            }
+        } catch (err) {
+            alert("Failed to connect to server");
+        }
+    };
+
+    // -------------------------
+    // SIGNUP FORM STATE
+    // -------------------------
+    const [signupData, setSignupData] = useState({
+        fullName: "",
+        rollNo: "",
+        semester: "",
+        email: "",
+        password: "",
+        photo: null,
+    });
+
+    const handleSignupChange = (e) => {
+        setSignupData({ ...signupData, [e.target.name]: e.target.value });
+    };
+
+    const handleFileChange = (e) => {
+        setSignupData({ ...signupData, photo: e.target.files[0] });
+    };
+
+    const handleSignup = async () => {
+        const formData = new FormData();
+        formData.append("fullName", signupData.fullName);
+        formData.append("rollNo", signupData.rollNo);
+        formData.append("semester", signupData.semester);
+        formData.append("email", signupData.email);
+        formData.append("password", signupData.password);
+        formData.append("photo", signupData.photo);
+
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/signup", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                alert("Signup Successful!");
+                setIsLogin(true); // Switch to login screen
+            } else {
+                alert(data.message || "Signup failed");
+            }
+        } catch (err) {
+            alert("Failed to connect to server");
+        }
+    };
+
+    return (
+        <div className="main_container">
             <div className="S_container">
-            <div className='form-container'>
-                <div className='form-toggle'>
-                    <button className={isLogin ? 'active' : ""}
-                     onClick={()=>setIsLogin(true)}>Login</button>
+                <div className="form-container">
+                    <div className="form-toggle">
+                        <button
+                            className={isLogin ? "active" : ""}
+                            onClick={() => setIsLogin(true)}
+                        >
+                            Login
+                        </button>
 
-                    <button className={!isLogin ? 'active' : ""}
-                     onClick={()=>setIsLogin(false)}>SignUp</button>
-                </div>
-                {isLogin ? <>
-                <div className='Loginform'>
-                    <h2>Student Login</h2>
-                    <input type="email" placeholder="Email"/>
-                    <input type="password" placeholder="Password"/>
-                    <a href='#'>Forgot Password?</a>
-                    <button>Login</button>
-                    <p>Not a Member?<a href='#' onClick={()=>setIsLogin(false)}>SignUp Now</a></p>
-                </div>
-                </> : <>
-                    <div class='Loginform'>
-                    <h2>SignUp</h2>
-                    <input type="text" placeholder="Full Name"/>
-                    <input type="text" placeholder="Roll No"/>
-                    <input type="text" placeholder="Semester"/>
-                    <input type="email" placeholder="Email"/>
-                    <input type="password" placeholder="Password"/>
-                    <label for="photo">Upload Student Image</label>
-                    <input type="file" id="photo" name="photo" accept="image/png, image/jpeg"/>
-
-                    <button>SignUp</button>
+                        <button
+                            className={!isLogin ? "active" : ""}
+                            onClick={() => setIsLogin(false)}
+                        >
+                            SignUp
+                        </button>
                     </div>
-                </> }
-            </div>
+
+                    {/* -------------------------- LOGIN FORM -------------------------- */}
+                    {isLogin ? (
+                        <div className="Loginform">
+                            <h2>Student Login</h2>
+
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                name="email"
+                                onChange={handleLoginChange}
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                name="password"
+                                onChange={handleLoginChange}
+                            />
+
+                            <a href="#">Forgot Password?</a>
+
+                            <button onClick={handleLogin}>Login</button>
+
+                            <p>
+                                Not a Member?{" "}
+                                <a href="#" onClick={() => setIsLogin(false)}>
+                                    SignUp Now
+                                </a>
+                            </p>
+                        </div>
+                    ) : (
+                        // -------------------------- SIGNUP FORM --------------------------
+                        <div className="Loginform">
+                            <h2>SignUp</h2>
+
+                            <input
+                                type="text"
+                                name="fullName"
+                                placeholder="Full Name"
+                                onChange={handleSignupChange}
+                            />
+                            <input
+                                type="text"
+                                name="rollNo"
+                                placeholder="Roll No"
+                                onChange={handleSignupChange}
+                            />
+                            <input
+                                type="text"
+                                name="semester"
+                                placeholder="Semester"
+                                onChange={handleSignupChange}
+                            />
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                onChange={handleSignupChange}
+                            />
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                onChange={handleSignupChange}
+                            />
+
+                            <label>Upload Student Image</label>
+                            <input
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                onChange={handleFileChange}
+                            />
+
+                            <button onClick={handleSignup}>SignUp</button>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
-    )
+    );
 }
-
