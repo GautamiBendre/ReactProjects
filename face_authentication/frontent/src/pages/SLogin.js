@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SLogin.css";
 
 export default function Slogin() {
@@ -7,6 +8,7 @@ export default function Slogin() {
     // -------------------------
     // LOGIN FORM STATE
     // -------------------------
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -29,6 +31,8 @@ export default function Slogin() {
             if (res.ok) {
                 alert("Login Successful!");
                 console.log("User:", data.user);
+                navigate("/student-dashboard");
+
             } else {
                 alert(data.message || "Login failed");
             }

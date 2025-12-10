@@ -1,0 +1,106 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f0f4ff;
+  font-family: Arial, sans-serif;
+  margin-top: 100px;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #1d4ed8;
+  color: white;
+  margin-top: 90px;
+  padding: 25px;
+
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 15px 0;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-left: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+}
+
+.sidebar li:hover,
+.sidebar .active {
+  background-color: #2563eb;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+.main-content h1 {
+  margin-top: 30px;
+  padding-top: 20px;
+  font-size: 25px;
+}
+.profile-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00000015;
+  width: 40%;
+  margin-bottom: 30px;
+}
+
+.profile-card img {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+.notice-board {
+  background: white;
+  padding: 15px;
+  width: 40%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00000015;
+}
+
+.right-buttons {
+  margin-top: 150px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 200x; /* fixed right side width */
+  margin-right: 100px;
+}
+
+.right-btn {
+  background: white;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  text-align: left;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #00000025;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.right-btn:hover {
+  background: #1d4ed8;
+  color: white;
+  transform: translateY(-4px);
+}

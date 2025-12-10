@@ -15,6 +15,8 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SLogin from "./pages/SLogin";
 import TLogin from "./pages/TLogin";
+import StudentDashboard from "./pages/StudentDashboard";
+
 /*import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import StudentDashboard from "./pages/StudentDashboard";
@@ -40,6 +42,8 @@ function AppWrapper() {
           <Route path="/" element={<Home />} />
           <Route path="/SLogin" element={<SLogin />} />
           <Route path="/TLogin" element={<TLogin />} />
+          <Route path="/StudentDashboard" element={<StudentDashboard />} />
+
         </Routes>
       </main>
 
