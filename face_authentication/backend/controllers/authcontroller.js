@@ -1,83 +1,54 @@
 import db from "../config/db.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { sendMail } from "../utils/mailer.js";
 
-export const signup = async (req, res) => {
-  try {
+// ---------------- SIGNUP ----------------
+export const signup = (req, res) => {
     const { fullName, rollNo, semester, email, password } = req.body;
-    const photo = req.file ? req.file.filename : null;
+    const photo = req.file?.filename;
 
-    const [exists] = await db.query("SELECT id FROM students WHERE email=?", [email]);
-    if (exists.length) return res.status(400).json({ message: "Email already exists" });
+    if (!photo) return res.status(400).json({ message: "Photo is required" });
 
-    const hashed = bcrypt.hashSync(password, 10);
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
-    await db.query(
-      "INSERT INTO students (fullName, rollNo, semester, email, password, photo) VALUES (?,?,?,?,?,?)",
-      [fullName, rollNo, semester, email, hashed, photo]
+    const sql = `INSERT INTO students (full_name, roll_no, semester, email, password, photo)
+                 VALUES (?, ?, ?, ?, ?, ?)`;
+
+    db.query(
+        sql,
+        [fullName, rollNo, semester, email, hashedPassword, photo],
+        (err) => {
+            if (err) {
+                return res.status(500).json({ message: "Signup failed", error: err });
+            }
+            res.json({ message: "Signup successful" });
+        }
     );
-
-    res.json({ message: "Signup successful" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 };
 
-export const login = async (req, res) => {
-  try {
+// ---------------- LOGIN ----------------
+export const login = (req, res) => {
     const { email, password } = req.body;
 
-    const [rows] = await db.query("SELECT * FROM students WHERE email=?", [email]);
-    if (!rows.length) return res.status(400).json({ message: "User not found" });
+    db.query("SELECT * FROM students WHERE email = ?", [email], (err, result) => {
+        if (err) return res.status(500).json({ message: "DB error" });
 
-    const user = rows[0];
+        if (result.length === 0)
+            return res.status(400).json({ message: "User not found" });
 
-    if (!bcrypt.compareSync(password, user.password))
-      return res.status(400).json({ message: "Incorrect password" });
+        const user = result[0];
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: "student", fullName: user.fullName },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
+        const isMatch = bcrypt.compareSync(password, user.password);
 
-    res.json({ message: "Login successful", token, user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+        if (!isMatch) return res.status(400).json({ message: "Wrong password" });
 
-export const forgotPassword = async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    const [rows] = await db.query("SELECT * FROM students WHERE email=?", [email]);
-    if (!rows.length) return res.status(400).json({ message: "User not found" });
-
-    const resetToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "15m" });
-
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-
-    await sendMail(email, "Reset Password", `<p>Click link: <a href="${resetUrl}">Reset Password</a></p>`);
-
-    res.json({ message: "Reset link sent to email" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-export const resetPassword = async (req, res) => {
-  try {
-    const { token, newPassword } = req.body;
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const hashed = bcrypt.hashSync(newPassword, 10);
-
-    await db.query("UPDATE students SET password=? WHERE email=?", [hashed, decoded.email]);
-
-    res.json({ message: "Password reset successful" });
-  } catch (err) {
-    res.status(400).json({ message: "Invalid or expired token" });
-  }
+        res.json({
+            message: "Login successful",
+            user: {
+                id: user.id,
+                name: user.full_name,
+                email: user.email,
+                photo: user.photo
+            }
+        });
+    });
 };

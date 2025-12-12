@@ -1,15 +1,18 @@
 import mysql from "mysql2";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "Shru@2908",      // your MySQL password
+    database: "attendance_portal"
 });
 
-export default pool.promise();
+db.connect((err) => {
+    if (err) {
+        console.log("MySQL Connection Error:", err);
+    } else {
+        console.log("MySQL Connected Successfully!");
+    }
+});
+
+export default db;

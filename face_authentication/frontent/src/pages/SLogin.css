@@ -5,7 +5,7 @@ body{
   align-items:center;
   height:100vh;
   margin:0;
-  background-image:url('C:\Users\AI\Desktop\ReactProjects\face_authentication\frontent\src\assets\images\S_Backgrounds.jpg');
+  background-image: url("../assets/images/S_Backgrounds.jpg");
   background-size:auto;
   background-position: left;
 }
@@ -41,7 +41,7 @@ body{
   top:0;
   width:50%;
   height: 100%;                                     /* right side occupies half space */
-  background-image: url('C:\Users\AI\Desktop\ReactProjects\face_authentication\frontent\src\assets\images\bg_Slogin.jpg'); 
+  bbackground-image: url("../assets/images/bg_Slogin.jpg"); 
   background-size: cover;
   background-position: center;
   border-top-right-radius: 20px;

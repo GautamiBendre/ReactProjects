@@ -6,7 +6,7 @@ body{
   text-align: center;
   height:100vh;
   margin:0;
-  background-image:url('images/bg.jpeg');
+  background-image:url("../src/assets/images/bg.jpeg");
   background-size:cover;
   background-position: left;
 }

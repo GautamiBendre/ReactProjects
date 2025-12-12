@@ -5,17 +5,17 @@ import "./SLogin.css";
 export default function Slogin() {
     const [isLogin, setIsLogin] = useState(true);
 
-    // -------------------------
-    // LOGIN FORM STATE
-    // -------------------------
     const navigate = useNavigate();
+
+    // ------------------------- LOGIN STATE -------------------------
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
     });
 
     const handleLoginChange = (e) => {
-        setLoginData({ ...loginData, [e.target.name]: e.target.value });
+        const fieldName = e.target.name;   // FIXED ESLINT ERROR
+        setLoginData({ ...loginData, [fieldName]: e.target.value });
     };
 
     const handleLogin = async () => {
@@ -32,7 +32,6 @@ export default function Slogin() {
                 alert("Login Successful!");
                 console.log("User:", data.user);
                 navigate("/student-dashboard");
-
             } else {
                 alert(data.message || "Login failed");
             }
@@ -41,9 +40,7 @@ export default function Slogin() {
         }
     };
 
-    // -------------------------
-    // SIGNUP FORM STATE
-    // -------------------------
+    // ------------------------- SIGNUP STATE -------------------------
     const [signupData, setSignupData] = useState({
         fullName: "",
         rollNo: "",
@@ -54,7 +51,8 @@ export default function Slogin() {
     });
 
     const handleSignupChange = (e) => {
-        setSignupData({ ...signupData, [e.target.name]: e.target.value });
+        const fieldName = e.target.name;  // FIXED ESLINT ERROR
+        setSignupData({ ...signupData, [fieldName]: e.target.value });
     };
 
     const handleFileChange = (e) => {
@@ -80,7 +78,7 @@ export default function Slogin() {
 
             if (res.ok) {
                 alert("Signup Successful!");
-                setIsLogin(true); // Switch to login screen
+                setIsLogin(true); // go to login screen
             } else {
                 alert(data.message || "Signup failed");
             }
@@ -89,10 +87,12 @@ export default function Slogin() {
         }
     };
 
+    // ------------------------- JSX -------------------------
     return (
         <div className="main_container">
             <div className="S_container">
                 <div className="form-container">
+
                     <div className="form-toggle">
                         <button
                             className={isLogin ? "active" : ""}
@@ -109,7 +109,7 @@ export default function Slogin() {
                         </button>
                     </div>
 
-                    {/* -------------------------- LOGIN FORM -------------------------- */}
+                    {/* ---------------- LOGIN FORM ---------------- */}
                     {isLogin ? (
                         <div className="Loginform">
                             <h2>Student Login</h2>
@@ -120,6 +120,7 @@ export default function Slogin() {
                                 name="email"
                                 onChange={handleLoginChange}
                             />
+
                             <input
                                 type="password"
                                 placeholder="Password"
@@ -139,7 +140,7 @@ export default function Slogin() {
                             </p>
                         </div>
                     ) : (
-                        // -------------------------- SIGNUP FORM --------------------------
+                        /* ---------------- SIGNUP FORM ---------------- */
                         <div className="Loginform">
                             <h2>SignUp</h2>
 
@@ -149,24 +150,28 @@ export default function Slogin() {
                                 placeholder="Full Name"
                                 onChange={handleSignupChange}
                             />
+
                             <input
                                 type="text"
                                 name="rollNo"
                                 placeholder="Roll No"
                                 onChange={handleSignupChange}
                             />
+
                             <input
                                 type="text"
                                 name="semester"
                                 placeholder="Semester"
                                 onChange={handleSignupChange}
                             />
+
                             <input
                                 type="email"
                                 name="email"
                                 placeholder="Email"
                                 onChange={handleSignupChange}
                             />
+
                             <input
                                 type="password"
                                 name="password"

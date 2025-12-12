@@ -1,28 +1,20 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
-import studentRoutes from "./routes/studentRoutes.js";
+import teacherRoutes from "./routes/teacherRoutes.js";
 
-dotenv.config();
+import "./config/db.js";
 
 const app = express();
 
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
-}));
-
+app.use(cors());
 app.use(express.json());
-app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/student", studentRoutes);
+app.use("/api/teacher", teacherRoutes);
 
-app.listen(process.env.PORT, () => {
-    console.log("Server running on port", process.env.PORT);
+
+app.listen(5000, () => {
+    console.log("Server running on port 5000");
 });

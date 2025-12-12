@@ -1,19 +1,20 @@
 import express from "express";
 import multer from "multer";
-import { signup, login, forgotPassword, resetPassword } from "../controllers/authController.js";
+import { signup, login} from "../controllers/authcontroller.js";
 
 const router = express.Router();
 
+// Multer Storage
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
+    destination: (req, file, cb) => cb(null, "uploads/"),
+    filename: (req, file, cb) =>
+        cb(null, Date.now() + "-" + file.originalname)
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
+// Routes
 router.post("/signup", upload.single("photo"), signup);
 router.post("/login", login);
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
 
 export default router;
