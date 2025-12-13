@@ -10,7 +10,7 @@ export const signup = (req, res) => {
 
     const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const sql = `INSERT INTO students (full_name, roll_no, semester, email, password, photo)
+    const sql = `INSERT INTO students (fullName, rollNo, semester, email, password, photo)
                  VALUES (?, ?, ?, ?, ?, ?)`;
 
     db.query(
@@ -45,7 +45,7 @@ export const login = (req, res) => {
             message: "Login successful",
             user: {
                 id: user.id,
-                name: user.full_name,
+                name: user.fullName,
                 email: user.email,
                 photo: user.photo
             }

@@ -42,7 +42,7 @@ app.post("/signup", upload.single("photo"), (req, res) => {
     const photo = req.file ? req.file.filename : null;
 
     const sql = `
-        INSERT INTO students (full_name, roll_no, semester, email, password, photo)
+        INSERT INTO students (fullName, rollNo, semester, email, password, photo)
         VALUES (?, ?, ?, ?, ?, ?)
     `;
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SLogin.css";
 
-export default function Slogin() {
+export default function SLogin() {
     const [isLogin, setIsLogin] = useState(true);
 
     const navigate = useNavigate();
@@ -30,8 +30,12 @@ export default function Slogin() {
 
             if (res.ok) {
                 alert("Login Successful!");
+
+                // ⭐ Store student id for dashboard
+                localStorage.setItem("student_id", data.user.id);
+
                 console.log("User:", data.user);
-                navigate("/student-dashboard");
+                navigate("/studentdashboard");
             } else {
                 alert(data.message || "Login failed");
             }

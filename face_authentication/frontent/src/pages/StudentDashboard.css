@@ -8,7 +8,7 @@
 
 .sidebar {
   width: 200px;
-  background-color: #1d4ed8;
+  background-color: rgb(48, 107, 155);
   color: white;
   margin-top: 90px;
   padding: 25px;
@@ -46,8 +46,10 @@
 }
 .main-content h1 {
   margin-top: 30px;
-  padding-top: 20px;
+  padding-top: 25px;
+  margin-left: 25px;
   font-size: 25px;
+  color:rgb(48, 107, 155)
 }
 .profile-card {
   display: flex;
@@ -56,7 +58,7 @@
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 0 10px #00000015;
-  width: 40%;
+  width: 80%;
   margin-bottom: 30px;
 }
 
@@ -69,38 +71,50 @@
 }
 
 .notice-board {
-  background: white;
+  background: rgb(48, 107, 155);
   padding: 15px;
-  width: 40%;
+  width:80%;
   border-radius: 10px;
   box-shadow: 0 0 10px #00000015;
 }
-
-.right-buttons {
-  margin-top: 150px;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 200x; /* fixed right side width */
-  margin-right: 100px;
+.notice-board h2 {
+  color:white;
 }
-
-.right-btn {
-  background: white;
-  padding: 20px;
+.notice-board li{
+  color:white;
   font-size: 18px;
-  font-weight: bold;
-  border: none;
-  text-align: left;
-  border-radius: 12px;
-  box-shadow: 0 0 12px #00000025;
-  cursor: pointer;
-  transition: 0.3s ease;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.right-btn:hover {
-  background: #1d4ed8;
-  color: white;
-  transform: translateY(-4px);
+
+/* Timetable Box */
+.timetable-container {
+  margin-top: 5px;
+  padding-top: 5px;
+  padding-left: 10px;
+  width:400px;
+  height: 50vh;
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-right:40px;   /* Push to right side */
 }
+
+.timetable-container h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.timetable-image {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.dashboard-main-wrapper { display: flex; flex: 1; gap: 20px; padding: 20px; }
+.left-content { flex: 2; display: flex; flex-direction: column; gap: 20px; }
+.right-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.timetable-image { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }

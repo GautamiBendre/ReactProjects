@@ -40,9 +40,9 @@ function AppWrapper() {
       <main style={{ minHeight: "100vh" }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/SLogin" element={<SLogin />} />
-          <Route path="/TLogin" element={<TLogin />} />
-          <Route path="/StudentDashboard" element={<StudentDashboard />} />
+          <Route path="/slogin" element={<SLogin />} />
+          <Route path="/tlogin" element={<TLogin />} />
+          <Route path="/studentdashboard" element={<StudentDashboard />} />
 
         </Routes>
       </main>
