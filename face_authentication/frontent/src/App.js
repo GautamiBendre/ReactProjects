@@ -15,12 +15,9 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SLogin from "./pages/SLogin";
 import TLogin from "./pages/TLogin";
+import Contact from "./pages/Contact";
 import StudentDashboard from "./pages/StudentDashboard";
 
-/*import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
-import StudentDashboard from "./pages/StudentDashboard";
-import TeacherDashboard from "./pages/TeacherDashboard";*/
 
 function AppWrapper() {
   const location = useLocation();
@@ -42,6 +39,7 @@ function AppWrapper() {
           <Route path="/" element={<Home />} />
           <Route path="/slogin" element={<SLogin />} />
           <Route path="/tlogin" element={<TLogin />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/studentdashboard" element={<StudentDashboard />} />
 
         </Routes>

@@ -1,79 +1,89 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./StudentDashboard.css";
-import { useNavigate } from "react-router-dom";
-
 
 export default function StudentDashboard() {
-  const [student, setStudent] = useState(null);
+  const [activeMenu, setActiveMenu] = useState("dashboard");
 
-  useEffect(() => {
-    // Get student ID stored in localStorage after login
-    const studentId = localStorage.getItem("student_id");
-    if (!studentId) return;
+  const student = {
+    name: "Student Name",
+    roll: "CS101",
+    semester: "5",
+    email: "student@mail.com",
+    image: "/profile.jpg"
+  };
 
-    fetch(`http://localhost:5000/api/auth/student/${studentId}`)
-
-      .then(res => res.json())
-      .then(data => setStudent(data))
-      .catch(err => console.log("Error fetching student:", err));
-  }, []);
-
-  if (!student) return <p>Loading...</p>;
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
 
   return (
     <div className="dashboard-container">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div className="profile-section">
+          <img src={student.image} alt="Profile" className="profile-img" />
+          <h3>{student.name}</h3>
+          <p>{student.roll}</p>
+        </div>
 
-      <div className="sidebar">
-        <h2>Student</h2>
-        <ul>
-          <li className="active">Dashboard</li>
-          <li>Profile</li>
-          <li>Mark Attendance</li>
-          <li>Logout</li>
-        </ul>
-      </div>
+        <nav className="menu">
+          <button className={activeMenu === "dashboard" ? "active" : ""}
+            onClick={() => setActiveMenu("dashboard")}>Dashboard</button>
+          <button className={activeMenu === "profile" ? "active" : ""}
+            onClick={() => setActiveMenu("profile")}>Profile</button>
+          <button className={activeMenu === "attendance" ? "active" : ""}
+            onClick={() => setActiveMenu("attendance")}>Mark Attendance</button>
+          <button onClick={logout}>Logout</button>
+        </nav>
+      </aside>
 
-      <div className="main-content">
-        <h1>Welcome {student.fullName} 👋</h1>
-
-        <div className="dashboard-main-wrapper"> {/* <-- WRAPPER START */}
-          <div className="left-content">   {/* <-- LEFT START */}
-
-           <div className="profile-card">
-              <img 
-                src={`http://localhost:5000/uploads/${student.photo}`} 
-                alt="student" 
-              />
-              <div>
-                <p><strong>Name:</strong> {student.fullName}</p>
-                <p><strong>Roll No:</strong> {student.rollNo}</p>
-                <p><strong>Semester:</strong> {student.semester}</p>
-                <p><strong>Email:</strong> {student.email}</p>
-              </div>
-            </div>
-
+      {/* Content Area */}
+      <main className="content">
+        {activeMenu === "dashboard" && (
+          <div className="dashboard-view">
             <div className="notice-board">
-              <h2>📢 Latest Notices</h2>
-              <ul>
-                <li>College will remain closed on Friday.</li>
-                <li>Internal exams start next week.</li>
-                <li>Submit assignments by Monday.</li>
-              </ul>
+              <h2>Notice Board</h2>
+              <div className="card">Exam on Friday</div>
+              <div className="card">Project submission next week</div>
             </div>
-          </div>   {/* <-- LEFT END */}
-          <div className="right-content">   {/* <-- RIGHT START */}
-          {/* Timetable Container */}
-            <div className="timetable-container">
-                <h2>📅 Timetable</h2>
-                <img 
-                src="face_authentication\frontent\src\assets\images\Timetable.jpeg"
-                alt="timetable" 
-                className="timetable-image"
-                />
+
+            <div className="timetable">
+              <h2>Timetable</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Subject</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Monday</td><td>DBMS</td></tr>
+                  <tr><td>Tuesday</td><td>AI</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-      </div>
+        )}
+
+        {activeMenu === "profile" && (
+          <div className="profile-card">
+            <h2>Student Profile</h2>
+            <p><b>Name:</b> {student.name}</p>
+            <p><b>Roll No:</b> {student.roll}</p>
+            <p><b>Semester:</b> {student.semester}</p>
+            <p><b>Email:</b> {student.email}</p>
+          </div>
+        )}
+
+        {activeMenu === "attendance" && (
+          <div className="attendance-card">
+            <h2>Mark Attendance</h2>
+            <video autoPlay className="camera" />
+            <button className="capture-btn">Capture & Mark Attendance</button>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
