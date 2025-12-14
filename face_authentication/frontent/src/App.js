@@ -17,6 +17,8 @@ import SLogin from "./pages/SLogin";
 import TLogin from "./pages/TLogin";
 import Contact from "./pages/Contact";
 import StudentDashboard from "./pages/StudentDashboard";
+import StudentProfile from "./pages/StudentProfile";
+
 
 
 function AppWrapper() {
@@ -41,6 +43,8 @@ function AppWrapper() {
           <Route path="/tlogin" element={<TLogin />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/studentdashboard" element={<StudentDashboard />} />
+          <Route path="/student/profile" element={<StudentProfile />} />
+
 
         </Routes>
       </main>

@@ -130,18 +130,74 @@ body {
   color: #1976d2;
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .dashboard-container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    text-align: center;
-  }
-
-  .menu button {
-    text-align: center;
-  }
+.notice-board {
+  background: rgb(48, 107, 155);
+  padding: 15px;
+  width:80%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00000015;
+  
 }
+.notice-board h2 {
+  color:white;
+}
+.notice-board li{
+  color:white;
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* Timetable Box 
+.timetable-container {
+  margin-top: 5px;
+  padding-top: 5px;
+  padding-left: 10px;
+  width:400px;
+  height: 50vh;
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-right:40px;   //push to right side
+}
+
+.timetable-container h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.timetable-image {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+*/
+.attendance-chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+  padding-left: 10px;
+  margin-right:60px;   /*push to right side*/
+}
+.attendance-chart-card h2{
+  color:#0b3c5d;
+}
+
+.attendance-percent {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #0b3c5d;
+}
+
+
+.dashboard-main-wrapper { display: flex; flex: 1; gap: 20px; padding: 20px; }
+.left-content { flex: 2; display: flex; flex-direction: column; gap: 20px; }
+.right-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.timetable-image { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }

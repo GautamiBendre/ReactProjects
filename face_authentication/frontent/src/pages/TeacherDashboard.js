@@ -1,123 +1,137 @@
-import React, { useState } from "react";
-import "./TeacherDashboard.css";
+import React, { useState, useEffect } from "react";
+import "./StudentDashboard.css";
+import { useNavigate } from "react-router-dom";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts"; //added for pie chart
 
-export default function Teacher() {
-  const [selectedSemester, setSelectedSemester] = useState("");
-  const [timeSlot, setTimeSlot] = useState("");
-  const [attendanceStarted, setAttendanceStarted] = useState(false);
 
-  // Example timetable data
-  const timetable = [
-    { day: "Monday", time: "9:00-10:00", subject: "Math", semester: "1" },
-    { day: "Monday", time: "10:00-11:00", subject: "Science", semester: "2" },
-    { day: "Tuesday", time: "9:00-10:00", subject: "English", semester: "1" },
-  ];
+export default function StudentDashboard() {
+  
+  const [student, setStudent] = useState(null);
+  const navigate = useNavigate();
 
-  // Example student list per semester
-  const students = {
-    "1": [
-      { id: 1, name: "Shruti", attendance: null },
-      { id: 2, name: "Ravi", attendance: null },
-    ],
-    "2": [
-      { id: 3, name: "Anand", attendance: null },
-      { id: 4, name: "Pooja", attendance: null },
-    ],
-  };
 
-  const [currentStudents, setCurrentStudents] = useState([]);
+  useEffect(() => {
+    
+    // Get student ID stored in localStorage after login
+    const studentId = localStorage.getItem("student_id");
+    if (!studentId) return;
 
-  const startAttendance = () => {
-    if (!selectedSemester || !timeSlot) {
-      alert("Please select semester and time slot");
-      return;
-    }
-    setCurrentStudents(students[selectedSemester] || []);
-    setAttendanceStarted(true);
-  };
+    fetch(`http://localhost:5000/api/auth/student/${studentId}`)
 
-  const markAttendance = (id, status) => {
-    const updatedStudents = currentStudents.map((s) =>
-      s.id === id ? { ...s, attendance: status } : s
-    );
-    setCurrentStudents(updatedStudents);
-  };
+      .then(res => res.json())
+      .then(data => setStudent(data))
+      .catch(err => console.log("Error fetching student:", err));
+  }, []);
+  // TEMPORARY / DUMMY attendance data
+    const totalLectures = 42;
+    const presentDays = 34;
+    const absentDays = totalLectures - presentDays;
+
+    const attendanceData = [
+      { name: "Present", value: presentDays },
+      { name: "Absent", value: absentDays }
+    ];
+
+    const COLORS = ["#7fcdfaff", "#0d5781ff"];
+
+
+  if (!student) return <p>Loading...</p>;
+  
+
 
   return (
-    <div className="teacher-container">
-      <h1>Teacher Dashboard</h1>
+    <div className="dashboard-container">
 
-      {/* Section to start attendance */}
-      <div className="start-attendance">
-        <h2>Start Attendance</h2>
-        <label>
-          Select Semester:
-          <select
-            value={selectedSemester}
-            onChange={(e) => setSelectedSemester(e.target.value)}
+      <div className="sidebar">
+        <h2>Student</h2>
+        <ul>
+          <li className="active">Dashboard</li>
+
+          <li
+           onClick={() => navigate("/student/profile")}
+           style={{ cursor: "pointer" }}
           >
-            <option value="">--Select--</option>
-            <option value="1">Semester 1</option>
-            <option value="2">Semester 2</option>
-          </select>
-        </label>
-        <label>
-          Select Time Slot:
-          <select value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)}>
-            <option value="">--Select--</option>
-            {timetable.map(
-              (t, index) =>
-                t.semester === selectedSemester && (
-                  <option key={index} value={t.time}>
-                    {t.day} {t.time} - {t.subject}
-                  </option>
-                )
-            )}
-          </select>
-        </label>
-        <button onClick={startAttendance}>Start Attendance</button>
+          Profile
+          </li>
+
+          <li>Mark Attendance</li>
+          <li
+          onClick={() => {
+          if (window.confirm("Are you sure you want to logout?")) {
+          localStorage.removeItem("student_id");
+          navigate("/slogin");
+          }
+          }}
+          style={{ cursor: "pointer" }}
+          >
+          Logout
+          </li>
+
+        </ul>
+
       </div>
 
-      {/* Attendance marking section */}
-      {attendanceStarted && (
-        <div className="attendance-section">
-          <h2>Mark Attendance for Semester {selectedSemester}</h2>
-          {currentStudents.length === 0 ? (
-            <p>No students found for this semester.</p>
-          ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Student Name</th>
-                  <th>Attendance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentStudents.map((student) => (
-                  <tr key={student.id}>
-                    <td>{student.name}</td>
-                    <td>
-                      <button
-                        className="present-btn"
-                        onClick={() => markAttendance(student.id, "Present")}
-                      >
-                        Present
-                      </button>
-                      <button
-                        className="absent-btn"
-                        onClick={() => markAttendance(student.id, "Absent")}
-                      >
-                        Absent
-                      </button>
-                      {student.attendance && <span>{student.attendance}</span>}
-                    </td>
-                  </tr>
+      <div className="main-content">
+        <h1>Welcome {student.fullName} 👋</h1>
+
+        <div className="dashboard-main-wrapper"> {/* <-- WRAPPER START */}
+          <div className="left-content">   {/* <-- LEFT START */}
+
+           <div className="profile-card">
+              <img 
+                src={`http://localhost:5000/uploads/${student.photo}`} 
+                alt="student" 
+              />
+              <div>
+                <p><strong>Name:</strong> {student.name}</p>
+                <p><strong>Roll No:</strong> {student.rollNo}</p>
+                <p><strong>Semester:</strong> {student.semester}</p>
+                <p><strong>Email:</strong> {student.email}</p>
+              </div>
+            </div>
+
+            <div className="notice-board">
+              <h2>📢 Latest Notices</h2>
+              <ul>
+                <li>College will remain closed on Friday.</li>
+                <li>Internal exams start next week.</li>
+                <li>Submit assignments by Monday.</li>
+              </ul>
+            </div>
+          </div>   {/* <-- LEFT END */}
+
+          <div className="right-content">   {/* <-- RIGHT START */}
+            <div className="attendance-chart-card">
+            <h2>📊 Attendance Overview</h2>
+
+            <PieChart width={300} height={300}>
+              <Pie
+                data={attendanceData}
+                cx="50%"
+                cy="50%"
+                label
+                outerRadius={100}
+                dataKey="value"
+              >
+                {attendanceData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
                 ))}
-              </tbody>
-            </table>
-          )}
+              </Pie>
+
+              <Tooltip />
+              <Legend />
+            </PieChart>
+
+              <p className="attendance-percent">
+                Attendance: {Math.round((presentDays / totalLectures) * 100)}%
+              </p>
+            </div>
+
+
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
+
